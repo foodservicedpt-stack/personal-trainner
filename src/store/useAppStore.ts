@@ -53,10 +53,15 @@ export const useAppStore = create<AppState>()(
       calendar: new LocalCalendarProvider(new BrowserStorageAdapter()),
 
       init: async () => {
-        const repo = get().repository
-        const data = await repo.load()
-        set({ data, loading: false })
-        get().recalculate()
+        try {
+          const repo = get().repository
+          const data = await repo.load()
+          set({ data, loading: false })
+          get().recalculate()
+        } catch (error) {
+          console.error('Failed to init store', error)
+          set({ data: { ...EMPTY_APP_DATA }, loading: false })
+        }
       },
 
       save: async () => {
