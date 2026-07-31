@@ -5,8 +5,11 @@ import { VitePWA } from 'vite-plugin-pwa'
 import path from 'node:path'
 
 const isDev = process.env.NODE_ENV !== 'production'
+const isGhPages = process.env.GITHUB_PAGES === 'true'
+const base = isGhPages ? '/personal-trainner/' : '/'
 
 export default defineConfig({
+  base,
   plugins: [
     react(),
     tailwindcss(),
@@ -22,8 +25,9 @@ export default defineConfig({
           background_color: '#0f172a',
           display: 'standalone',
           orientation: 'portrait',
-          scope: '/',
-          start_url: '/',
+          scope: base,
+          start_url: base,
+          lang: 'es',
           icons: [
             {
               src: 'pwa-192x192.png',
